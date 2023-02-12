@@ -20,7 +20,7 @@ interface ApiService {
      *
      */
 
-    @GET("api/access-token/search/{name}")
+    @GET("10159565990447712/search/{name}")
     suspend fun getSuperHeroes(@Path("name") superHeroName: String):Response<SuperHeroDataResponse>
 
 }
