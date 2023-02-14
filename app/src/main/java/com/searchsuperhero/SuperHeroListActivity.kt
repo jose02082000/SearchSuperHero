@@ -104,6 +104,9 @@ class SuperHeroListActivity : AppCompatActivity() {
 
             } else {
                 Log.i("jose", "No funciona")
+                runOnUiThread {
+                    binding.progressBar.isVisible = false
+                }
             }
         }
 
