@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="super_hero_item">#8B710B93</color>
+
+    <color name="intelligence">#00FF0A</color>
+    <color name="strength">#FF0000</color>
+    <color name="speed">#FF3B00</color>
+    <color name="durability">#0019FF</color>
+    <color name="power">#F8EC00</color>
+    <color name="combat">#A600B8</color>
+
 </resources>

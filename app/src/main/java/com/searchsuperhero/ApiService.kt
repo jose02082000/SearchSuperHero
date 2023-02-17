@@ -20,7 +20,15 @@ interface ApiService {
      *
      */
 
-    @GET("10159565990447712/search/{name}")
-    suspend fun getSuperHeroes(@Path("name") superHeroName: String):Response<SuperHeroDataResponse>
+    @GET("5787537781343419/search/{name}")
+    suspend fun getSuperHeroes(@Path("name") superHeroName: String): Response<SuperHeroDataResponse>
 
+    /**
+     * para nuestra segunda peticion hacemos todo casi tal cual como esta arriba obiamente como ya no vamos a
+     *necesitar la lista como respuesta ahora nosotros creamos una nueva data class y en ella implementamos cada uno
+     * de los atributos que vamos a mostrar en nuestra segunda activity
+     *
+     */
+    @GET("5787537781343419/{id}")
+    suspend fun getSuperHeroDetail(@Path("id") ideSuperHero: String): Response<SuperHeroDetailResponse>
 }

@@ -1,11 +1,13 @@
 package com.searchsuperhero
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.searchsuperhero.DetailSuperHeroActivity.Companion.EXTRA_ID
 import com.searchsuperhero.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,10 @@ class SuperHeroListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var retrofit: Retrofit
+
+    companion object {
+        const val EXTRA_ID = "extra_id"
+    }
 
     /**
      * en este lugar inicializamos el adapter para luego llamarlo en ek iniUi
@@ -60,11 +66,17 @@ class SuperHeroListActivity : AppCompatActivity() {
          * no se que hace especificamente pero es necesario
          * y conectamos ahora el layout del RV con el adapter
          */
-        adapter = SuperHeroAdapter()
+
+        /**
+         * aca vamos a enganchar la funcion labmda con nuestra funcion que tenemos que es navigateToDetail esta funcion la colocamos siempre
+         * en medio de unas llaves por fuera de los parentesis y nos va a decir que ella necesita un parametro que se llama id y hay dos maneras
+         * de hacer este paso 1)  adapter = SuperHeroAdapter(){navigateToDetail(it)} o 2 como esta explicado abajo ese superHeroid es
+         * simplemetne para que tu sepas con que va a trabajar esa funcion
+         */
+        adapter = SuperHeroAdapter() { superHeroId -> navigateToDetail(superHeroId) }
         binding.rvSuperHeroes.setHasFixedSize(true)
         binding.rvSuperHeroes.layoutManager = LinearLayoutManager(this)
         binding.rvSuperHeroes.adapter = adapter
-
     }
 
     private fun searchByName(query: String) {
@@ -101,7 +113,6 @@ class SuperHeroListActivity : AppCompatActivity() {
                         binding.progressBar.isVisible = false
                     }
                 }
-
             } else {
                 Log.i("jose", "No funciona")
                 runOnUiThread {
@@ -109,7 +120,6 @@ class SuperHeroListActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun getRetrofit(): Retrofit {
@@ -125,5 +135,14 @@ class SuperHeroListActivity : AppCompatActivity() {
             .baseUrl("https://superheroapi.com/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    /**
+     * para poder llamar esta funcion cada vez que nosotros le demos tap a uno de los superheroes tendremos que hacelo con una funcion lambda
+     */
+    private fun navigateToDetail(id: String) {
+        val intent = Intent(this, DetailSuperHeroActivity::class.java)
+        intent.putExtra(EXTRA_ID, id)
+        startActivity(intent)
     }
 }
