@@ -50,10 +50,24 @@ class DetailSuperHeroActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val superHeroDetail =
                 getRetrofit().create(ApiService::class.java).getSuperHeroDetail(id)
-            if (superHeroDetail != null) {
-                runOnUiThread { createUi(superHeroDetail.body()!!) }
+            runOnUiThread {
+                val body = superHeroDetail.body()!!
+                correectlyNullInfo(body)
+                createUi(body)
             }
         }
+    }
+
+    private fun correectlyNullInfo(superHeroDetail: SuperHeroDetailResponse): SuperHeroDetailResponse {
+        superHeroDetail.powerstats.apply {
+            if (intelligence == "null") intelligence = "0"
+            if (strength == "null") strength = "0"
+            if (speed == "null") speed = "0"
+            if (durability == "null") durability = "0"
+            if (power == "null") power = "0"
+            if (combat == "null") combat = "0"
+        }
+        return superHeroDetail
     }
 
     /**
@@ -67,9 +81,9 @@ class DetailSuperHeroActivity : AppCompatActivity() {
         preparePowerStats(superHero.powerstats)
         binding.tvSuperHeroRealName.text = superHero.biography.fullName
         binding.tvSuperHeroPublisher.text = superHero.biography.publisher
-        binding.tvSuperHeroFirstAppearance.text = superHero.biography.firstAppearance.orEmpty()
-        // binding.tvSuperHeroWeight.text = superHero.appearance.weight
-        // binding.tvSuperHeroHeight.text = superHero.appearance.height
+        binding.tvSuperHeroFirstAppearance.text = superHero.biography.firstAppearance
+        binding.tvSuperHeroWeight.text = superHero.appearance.weight[1]
+        binding.tvSuperHeroHeight.text = superHero.appearance.height[1]
     }
 
     private fun prepareStats(powerstats: PowerStatsResponse) {

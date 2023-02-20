@@ -3,11 +3,11 @@ package com.searchsuperhero
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.searchsuperhero.DetailSuperHeroActivity.Companion.EXTRA_ID
 import com.searchsuperhero.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -106,15 +106,18 @@ class SuperHeroListActivity : AppCompatActivity() {
             if (myResponse.isSuccessful) {
                 Log.i("jose", "funciona")
                 val response: SuperHeroDataResponse? = myResponse.body()
-                if (response != null) {
-                    Log.i("jose", response.toString())
+                if (response?.superheroes != null) {
                     runOnUiThread {
                         adapter.updateList(response.superheroes)
                         binding.progressBar.isVisible = false
                     }
+                } else {
+                    runOnUiThread {
+                        binding.progressBar.isVisible = false
+                        Toast.makeText(applicationContext, "Superheroe no encontrado", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } else {
-                Log.i("jose", "No funciona")
                 runOnUiThread {
                     binding.progressBar.isVisible = false
                 }
