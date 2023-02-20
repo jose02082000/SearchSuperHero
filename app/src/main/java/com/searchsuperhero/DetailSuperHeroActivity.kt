@@ -66,7 +66,10 @@ class DetailSuperHeroActivity : AppCompatActivity() {
         prepareStats(superHero.powerstats)
         preparePowerStats(superHero.powerstats)
         binding.tvSuperHeroRealName.text = superHero.biography.fullName
-        binding.tvSuperHeroPublisher.text = superHero.biography.piblisher
+        binding.tvSuperHeroPublisher.text = superHero.biography.publisher
+        binding.tvSuperHeroFirstAppearance.text = superHero.biography.firstAppearance.orEmpty()
+        // binding.tvSuperHeroWeight.text = superHero.appearance.weight
+        // binding.tvSuperHeroHeight.text = superHero.appearance.height
     }
 
     private fun prepareStats(powerstats: PowerStatsResponse) {
